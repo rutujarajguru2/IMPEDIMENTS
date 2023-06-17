@@ -1,22 +1,46 @@
-/*import { Component } from '@angular/core';
+// import { Component, OnInit } from '@angular/core';
+// import { Router } from '@angular/router';
+// import { ImpedimentsService } from '../impediments.service';
 
-@Component({
-  selector: 'app-create-impediments',
-  templateUrl: './create-impediments.component.html',
-  styleUrls: ['./create-impediments.component.css']
-})
-export class CreateImpedimentsComponent {
-  impediments: any = {}; // Create an object to hold the form data
+// @Component({
+//   selector: 'app-create-impediments',
+//   templateUrl: './create-impediments.component.html',
+//   styleUrls: ['./create-impediments.component.css']
+// })
+// export class CreateImpedimentsComponent {
+//   impediments: any = {}; // Define your impediments object with the necessary properties
 
-  submitImpediments() {
-    // You can perform any actions with the form data here, such as submitting it to a server or processing it further
-    console.log(this.impediments);
-  }
-}     http://localhost:8080/api/v1/impediment
-*/
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+//   constructor(private impedimentsService: ImpedimentsService,
+//     private router: Router) {}
+  
+
+//     ngOnInit(): void{
+
+//     }
+
+//   submitImpediments() {
+//     // Perform the logic to submit the impediment data to the backend API
+//     this.impedimentsService.createImpediment(this.impediments)
+//   }
+
+//   goToImpediments(){
+//     this.router.navigate(['/impediments'])
+//   }
+
+//   onSubmit(){
+//     console.log(this.impediments);
+//     this.submitImpediments();
+//   }
+
+//   cancel() {
+//     // Navigate to the impediments list page or any other desired route
+//     this.router.navigate(['/impediments']);
+//   }
+// }
+
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ImpedimentsService } from '../impediments.service';
 
 @Component({
   selector: 'app-create-impediments',
@@ -24,22 +48,81 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-impediments.component.css']
 })
 export class CreateImpedimentsComponent {
-  impediments: any = {};
+  impediments: any = {}; // Define your impediments object with the necessary properties
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private impedimentsService: ImpedimentsService,
+    private router: Router) {}
+  
+
+    ngOnInit(): void{
+
+    }
 
   submitImpediments() {
-    this.http.post('http://localhost:8080/api/v1/impediment', this.impediments)
-      .subscribe(
-        (response) => {
-          console.log(response); // Log the response from the backend
-          // Perform any additional actions after successful creation
-          this.router.navigate(['http://localhost:4200/impediments']); // Redirect to the impediment-list page
-        },
-        (error) => {
-          console.error(error); // Log any errors that occur
-          // Handle the error as needed
-        }
-      );
+    // Perform the logic to submit the impediment data to the backend API
+    this.impedimentsService.createImpediment(this.impediments).subscribe( data =>
+      {
+        console.log(data);
+        this.goToImpediments();
+      },
+      error => console.log(error));
+  }
+
+  goToImpediments(){
+    this.router.navigate(['/impediments'])
+  }
+
+  onSubmit(){
+    console.log(this.impediments);
+    this.submitImpediments();
+  }
+
+  cancel() {
+    // Navigate to the impediments list page or any other desired route
+    this.router.navigate(['/impediments']);
   }
 }
+
+// import { Component, OnInit } from '@angular/core';
+// import { Router } from '@angular/router';
+// import { ImpedimentsService } from '../impediments.service';
+
+// @Component({
+//   selector: 'app-create-impediments',
+//   templateUrl: './create-impediments.component.html',
+//   styleUrls: ['./create-impediments.component.css']
+// })
+// export class CreateImpedimentsComponent {
+//   impediments: any = {}; // Define your impediments object with the necessary properties
+
+//   constructor(private impedimentsService: ImpedimentsService, private router: Router) {}
+
+//   submitImpediments() {
+//     // Set the current date
+//     this.impediments.date = new Date().toISOString().slice(0, 10);
+
+//     // Perform the logic to submit the impediment data to the backend API
+//     this.impedimentsService.createImpediment(this.impediments).subscribe(
+//       data => {
+//         console.log(data);
+//         this.goToImpediments();
+//       },
+//       error => console.log(error)
+//     );
+//   }
+
+//   goToImpediments() {
+//     this.router.navigate(['/impediments']);
+//   }
+
+//   onSubmit() {
+//     console.log(this.impediments);
+//     this.submitImpediments();
+//   }
+
+//   cancel() {
+//     this.router.navigate(['/impediments']);
+//   }
+// }
+
+
